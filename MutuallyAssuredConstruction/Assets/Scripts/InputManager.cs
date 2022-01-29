@@ -19,8 +19,8 @@ public class InputManager : MonoBehaviour
 	}
 	private void Update()
 	{
-		RotationInput(m_PlayerInput.Default.SideMovement.ReadValue<Vector2>());
-		mousepos = m_PlayerInput.Default.mousePos.ReadValue<Vector2>();
+		//RotationInput(m_PlayerInput.Default.SideMovement.ReadValue<Vector2>());
+		//mousepos = m_PlayerInput.Default.mousePos.ReadValue<Vector2>();
 	}
 
 	private void RotationInput(Vector2 rotation)

@@ -76,7 +76,7 @@ GameObject:
   - component: {fileID: 5477117706940901518}
   - component: {fileID: 5477117706940901513}
   - component: {fileID: 5477117706940901512}
-  - component: {fileID: 3775925099890150682}
+  - component: {fileID: 1740073206804014531}
   m_Layer: 0
   m_Name: Block Visual
   m_TagString: Untagged
@@ -127,7 +127,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 592400cb845ee5a4d84e38e7e448231a, type: 2}
+  - {fileID: 2100000, guid: 4d658442f5728a94a90f2f8f9367f05e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -162,7 +162,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3775925099890150682
+--- !u!114 &1740073206804014531
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

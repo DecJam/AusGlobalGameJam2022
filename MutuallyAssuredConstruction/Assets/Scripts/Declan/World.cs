@@ -9,7 +9,8 @@ public enum GridType
 	Tree,
 	SmallTree,
 	Rubble,
-	GardenBox
+	GardenBox,
+    Bush
 }
 
 public class World : MonoBehaviour

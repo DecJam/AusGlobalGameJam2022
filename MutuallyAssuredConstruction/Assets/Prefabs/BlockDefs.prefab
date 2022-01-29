@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7249203046992958542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3904600893068720253}
+  - component: {fileID: 1376649378838569689}
+  m_Layer: 0
+  m_Name: BlockDefs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3904600893068720253
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7249203046992958542}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1376649378838569689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7249203046992958542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75518a4048ee1d945b4e7efe466e1afa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  UpperBuildingSingle:
+  - {fileID: 2458920158052060568, guid: 4f25aa9f80e7959418c4e5462253513e, type: 3}
+  UpperBuildingBase:
+  - {fileID: 5757301162178241390, guid: 118376760d2428c438d4c2eb47bd47c4, type: 3}
+  UpperBuildingMid:
+  - {fileID: 2348169480036742814, guid: 6c1ed8bb9298b7844b0a527a2113047e, type: 3}
+  - {fileID: 8039574231244161198, guid: 8770f461e31264a43b6a560636c52d0f, type: 3}
+  - {fileID: 1486930026344851573, guid: 989de50e5ad719f478bab3f7182c9f7d, type: 3}
+  - {fileID: 7573795857193438463, guid: 32e38fbb8e0dcb243b49e74aa0afb3b4, type: 3}
+  UpperBuildingTop:
+  - {fileID: 7400776497880281238, guid: 6655279b67a460d4a9670d945ae71672, type: 3}
+  - {fileID: 3248968620612808223, guid: a5662056b49e4d146bfc700f2c4746e9, type: 3}
+  UpperTreeMid: []
+  UpperTreeTop: []
+  UpperTreelightMid: []
+  UpperTreeLightTop: []
+  UpperRubble: []
+  UpperBush: []
+  UpperGardenBox: []
+  LowerBuildingSingle:
+  - {fileID: 2458920158052060568, guid: e19244ce886149146aeaffd211b95e6c, type: 3}
+  LowerBuildingBase:
+  - {fileID: 5757301162178241390, guid: 6ce6666e3e9cc49408ba6a91b284cb17, type: 3}
+  LowerBuildingMid:
+  - {fileID: 2348169480036742814, guid: 457007efa2d9fb642bc4f9a8c9882eff, type: 3}
+  - {fileID: 8039574231244161198, guid: bf52e230d746490409a83c87fc6454f2, type: 3}
+  - {fileID: 1486930026344851573, guid: 691d0df057e2cae4fbc837e693aae216, type: 3}
+  - {fileID: 7573795857193438463, guid: 80d75350f96781441aacf735d4dfe4ea, type: 3}
+  LowerBuildingTop:
+  - {fileID: 7400776497880281238, guid: 889c8c521f34ecc479241331935edfa1, type: 3}
+  - {fileID: 3248968620612808223, guid: 776580b01f63d724993088e3030a4c37, type: 3}
+  LowerTreeMid: []
+  LowerTreeTop: []
+  LowerTreelightMid: []
+  LowerTreeLightTop: []
+  LowerRubble: []
+  LowerBush: []
+  LowerGardenBox: []

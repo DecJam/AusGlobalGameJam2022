@@ -54,7 +54,7 @@ public class TrainArm : MonoBehaviour
 	{
 		if (other.gameObject.tag == "ResourceNode")
 		{
-			other.gameObject.GetComponentInParent<ResourceNode>().Harvest();
+			//other.gameObject.GetComponentInParent<ResourceNode>().Harvest();
 			m_MoovingOut = false;
 		}
 

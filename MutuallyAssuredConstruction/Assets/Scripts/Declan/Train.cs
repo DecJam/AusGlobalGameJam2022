@@ -71,6 +71,7 @@ public class Train : MonoBehaviour
 			Debug.Log("W pressed");
 			if (!ArmMoving)
 			{
+				GameManager.Instance.World.CalculateCollumn(true);
 				m_TopArm.GetComponent<TrainArm>().Move();
 				ArmMoving = true;
 			}
@@ -81,6 +82,7 @@ public class Train : MonoBehaviour
 			Debug.Log("S Pressed");
 			if (!ArmMoving)
 			{
+				GameManager.Instance.World.CalculateCollumn(false);
 				m_BottomArm.GetComponent<TrainArm>().Move();
 				ArmMoving = true;
 			}

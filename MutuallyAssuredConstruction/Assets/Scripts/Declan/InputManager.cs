@@ -13,19 +13,16 @@ public class InputManager : MonoBehaviour
 	{
 		m_PlayerInput = new Controls();
 
-		m_PlayerInput.Default.mouseclick.performed += ctx => MouseClick(ctx);
+		//_PlayerInput.Default.mouseclick.performed += ctx => MouseClick(ctx);
 		m_PlayerInput.Default.Arms.performed += ctx => MoveArms(ctx);
+		m_PlayerInput.Default.SideMovement.performed += ctx => RotationInput(ctx);
+		m_PlayerInput.Default.SideMovement.canceled += ctx => RotationInput(ctx);
 
 	}
-	private void Update()
-	{
-		//RotationInput(m_PlayerInput.Default.SideMovement.ReadValue<Vector2>());
-		//mousepos = m_PlayerInput.Default.mousePos.ReadValue<Vector2>();
-	}
 
-	private void RotationInput(Vector2 rotation)
-	{
-		GameManager.Instance.Map.Rotate(rotation);
+	private void RotationInput(InputAction.CallbackContext ctx)
+	{ 
+		GameManager.Instance.World.Rotate(ctx.ReadValue<Vector2>());
 	}
 
 	public void MouseClick(InputAction.CallbackContext ctx)
@@ -33,7 +30,7 @@ public class InputManager : MonoBehaviour
 		RaycastHit hit;
 		if(Physics.Raycast(Camera.main.ScreenPointToRay(mousepos), out hit, float.MaxValue, m_ResourceNode))
 		{
-			hit.collider.gameObject.GetComponentInParent<ResourceNode>().Harvest();
+			//hit.collider.gameObject.GetComponentInParent<ResourceNode>().Harvest();
 		}
 	} 
 	private void MoveArms(InputAction.CallbackContext ctx)

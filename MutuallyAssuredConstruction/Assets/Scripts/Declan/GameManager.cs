@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public Map Map = null;
+    public World World = null;
     [SerializeField] List<GameObject> m_ResourceNodePrefabs;
 	[SerializeField] List<GameObject> m_ResourceItemPrefabs;
 
@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
 	GameObject node;
 	private void Start()
 	{
+		Debug.Log("HI");
 		//node = Instantiate(m_ResourceNodePrefab, new Vector3(0,0,10), Quaternion.identity);
 		//node.GetComponent<ResourceNode>().SpawnNode();
 	}

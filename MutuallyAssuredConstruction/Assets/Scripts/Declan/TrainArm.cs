@@ -7,7 +7,7 @@ public class TrainArm : MonoBehaviour
 	bool m_MoovingOut;
 	bool m_Mooving;
 	private float m_SceneHeight = 6.0f;
-	private float m_MoovingSpeed = 3;
+	private float m_MoovingSpeed = 7;
 
 	private void Update()
 	{
@@ -42,12 +42,14 @@ public class TrainArm : MonoBehaviour
 		m_Mooving = false;
 		Train.Instance.ArmMoving = false;
 		Train.Instance.SetMoving(true);
+		GameManager.Instance.World.RotScale = 1;
 	}
 
 	public void Move()
 	{
 		m_Mooving = true;
 		m_MoovingOut = true;
+		GameManager.Instance.World.RotScale = 0;
 	}
 
 	private void OnTriggerEnter(Collider other)

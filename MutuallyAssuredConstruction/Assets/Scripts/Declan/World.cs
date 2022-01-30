@@ -10,7 +10,7 @@ public enum GridType
 	SmallTree,
 	Rubble,
 	GardenBox,
-    Bush
+	Bush
 }
 
 public class World : MonoBehaviour
@@ -31,7 +31,10 @@ public class World : MonoBehaviour
 	private int m_BackgroundWidth = 24;
 	private int m_BackgroundHeight = 8;
 	[SerializeField] private GridNode[,] m_GameGrid;
-	[SerializeField] private float fudgeOffset;
+	[SerializeField] private float topFudgeOffset;
+	[SerializeField] private float bottumFudgeOffset;
+	public int RotScale = 1;
+
 
 	private float m_Timer;
 	private void Start()
@@ -81,7 +84,14 @@ public class World : MonoBehaviour
 		{
 			for (int y = 0; y < m_BackgroundHeight; y++)
 			{
-				m_GameGrid[x, y].RefreshBlockType();
+				if(y >= TopHalf.transform.childCount)
+				{
+					m_GameGrid[x, y].RefreshBlockType(false);
+				}
+				else
+				{
+					m_GameGrid[x, y].RefreshBlockType(true);
+				}
 			}
 		}
 	}
@@ -103,11 +113,12 @@ public class World : MonoBehaviour
 
 	public void Rotate(Vector2 rot)
 	{
-		m_TopRotation += m_RotatationSpeed * rot.x * Time.deltaTime;
+		m_TopRotation += ((m_RotatationSpeed * rot.x) * Time.deltaTime)* RotScale;
 		TopRotPoint.transform.eulerAngles = new Vector3(0, m_TopRotation, 0);
 
-		m_BottomRotation += m_RotatationSpeed * rot.y * Time.deltaTime;
-		BottumRotPoint.transform.eulerAngles = new Vector3(0, m_BottomRotation, 0);
+		m_BottomRotation += ((m_RotatationSpeed * rot.y) * Time.deltaTime) * RotScale;
+		BottumRotPoint.transform.eulerAngles = new Vector3(0, m_BottomRotation, -180);
+		//Debug.Log(rot);
 	}
 
 	// Gets the cart position from -1 being full left 0 being middle and 1 being full right
@@ -127,9 +138,13 @@ public class World : MonoBehaviour
 		if (top)
 		{
 			node = m_GameGrid[column, index];
-			for (index = 0;  node.BlockType != GridType.Air; index ++)
+			if (node.BlockType == GridType.Air)
 			{
-				node = m_GameGrid[column, index];
+
+				for (index = 0; node.BlockType != GridType.Air; index++)
+				{
+					node = m_GameGrid[column, index];
+				}
 			}
 			result = index;
 		}
@@ -137,15 +152,20 @@ public class World : MonoBehaviour
 		else
 		{
 			index = TopHalf.transform.childCount;
-			node = m_GameGrid[column, index];
-			for (index = TopHalf.transform.childCount; node.BlockType != GridType.Air; index++)
-			{
-				node = m_GameGrid[column, index];
-			}
 			result = index;
+			node = m_GameGrid[column, index];
+			if (node.BlockType == GridType.Air)
+			{
+				for (index = TopHalf.transform.childCount; node.BlockType != GridType.Air; index++)
+				{
+					node = m_GameGrid[column, index];
+				}
+				result = index;
+			}
 		}
 
-		return result - 1;
+		Debug.Log(result);
+		return result;
 	}
 
 	public int CalculateCollumn(bool up)
@@ -168,31 +188,32 @@ public class World : MonoBehaviour
 		else if (playerOffSet < -5) playerOffSet = -5f;
 
 		section += playerOffSet * -1;
-		section += fudgeOffset; //off set of spindle rotation
+		if(up)
+		{
+			section += topFudgeOffset; //off set of spindle rotation
 
-		Debug.Log("Section Collumn = " + (int)section%24);
+		}
+		else
+		{
+			section += bottumFudgeOffset; //off set of spindle rotation
+
+		}
+
+		Debug.Log("Section Collumn = " + (int)section % 24);
 		return (int)section % 24;
 	}
 
-	public GridType RemoveBlock(int column, int row, bool top)
+	public GridType RemoveBlock(int column, int row, bool up)
 	{
 		GridType block = GridType.Air;
 
-		if (top)
-		{
-			block = m_GameGrid[column, row].BlockType;
-			m_GameGrid[column, row].BlockType = GridType.Air;
 
-			m_GameGrid[column, row].RefreshBlockType();
-		}
+		block = m_GameGrid[column, row].BlockType;
+		m_GameGrid[column, row].BlockType = GridType.Air;
 
-		else
-		{
-			block = m_GameGrid[column, row + TopHalf.transform.childCount].BlockType;
-			m_GameGrid[column, row + TopHalf.transform.childCount].BlockType = GridType.Air;
+		m_GameGrid[column, row].RefreshBlockType(up);
 
-			m_GameGrid[column, row + TopHalf.transform.childCount].RefreshBlockType();
-		}
+
 		Debug.Log("Removing: " + block + "At:" + column + " * " + row);
 		return block;
 	}
@@ -224,31 +245,17 @@ public class World : MonoBehaviour
 		return block;
 	}
 
-	public void PlaceBlock(int column, int row, bool top, GridType type)
-	{ 
-		if (top)
+	public void PlaceBlock(int column, int row, GridType type, bool up)
+	{
+
+		if (column < 0)
 		{
-			if (column < 0)
-			{
-				column = m_BackgroundWidth - column;
-			}
-
-			m_GameGrid[column, row].BlockType = type;
-
-			m_GameGrid[column, row].RefreshBlockType();
+			column = m_BackgroundWidth - column;
 		}
 
-		else
-		{
-			if (column < 0)
-			{
-				column = m_BackgroundWidth - column;
-			}
+		m_GameGrid[column, row].BlockType = type;
 
-			m_GameGrid[column, row + TopHalf.transform.childCount].BlockType = type;
-
-			m_GameGrid[column, row + TopHalf.transform.childCount].RefreshBlockType();
-		}
+		m_GameGrid[column, row].RefreshBlockType(up);
 
 		Debug.Log("Placed:" + type + " At: " + column + " * " + row);
 	}

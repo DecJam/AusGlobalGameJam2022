@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44910216, g: 0.49577504, b: 0.5574712, a: 1}
+  m_IndirectSpecularColor: {r: 0.44910204, g: 0.49577475, b: 0.5574707, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -34703,6 +34703,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Train
       objectReference: {fileID: 0}
+    - target: {fileID: 1764363090606751175, guid: f6749804d39675e469743b4970c5c48f, type: 3}
+      propertyPath: m_Moving
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764363090606751175, guid: f6749804d39675e469743b4970c5c48f, type: 3}
+      propertyPath: m_MovementSpeed
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1764363090606751179, guid: f6749804d39675e469743b4970c5c48f, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -35557,9 +35565,25 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1045079653}
     - target: {fileID: 6249588317262657686, guid: 9bea9d3e01e655a4c873d95d205bb485, type: 3}
+      propertyPath: fudgeOffset
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249588317262657686, guid: 9bea9d3e01e655a4c873d95d205bb485, type: 3}
       propertyPath: BottumRotPoint
       value: 
       objectReference: {fileID: 1415651919}
+    - target: {fileID: 6249588317262657686, guid: 9bea9d3e01e655a4c873d95d205bb485, type: 3}
+      propertyPath: topFudgeOffset
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249588317262657686, guid: 9bea9d3e01e655a4c873d95d205bb485, type: 3}
+      propertyPath: bottumFudgeOffset
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6249588317262657686, guid: 9bea9d3e01e655a4c873d95d205bb485, type: 3}
+      propertyPath: m_RotatationSpeed
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9bea9d3e01e655a4c873d95d205bb485, type: 3}
 --- !u!1001 &6453877973798549330

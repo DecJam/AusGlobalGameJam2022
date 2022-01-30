@@ -77,10 +77,14 @@ public class Train : MonoBehaviour
 				int y = GameManager.Instance.World.FindLowestEmptyAt(x, true);
 				if (!HoldingItem)
 				{
-					InventoryItem = GameManager.Instance.World.RemoveBlock(x, y-1, true);
-					if(InventoryItem == GridType.Air)
+					if (y < 0)
 					{
-					HoldingItem = false;
+						y = 0;
+					}
+					InventoryItem = GameManager.Instance.World.RemoveBlock(x, y,true);
+					if (InventoryItem == GridType.Air)
+					{
+						HoldingItem = false;
 
 					}
 					else
@@ -90,7 +94,7 @@ public class Train : MonoBehaviour
 				}
 				else
 				{
-					GameManager.Instance.World.PlaceBlock(x, y, true, InventoryItem);
+					GameManager.Instance.World.PlaceBlock(x, y, InventoryItem,true);
 					HoldingItem = false;
 				}
 
@@ -110,7 +114,11 @@ public class Train : MonoBehaviour
 				int y = GameManager.Instance.World.FindLowestEmptyAt(x, false);
 				if (!HoldingItem)
 				{
-					InventoryItem = GameManager.Instance.World.RemoveBlock(x, y-1, false);
+					if(y < 4)
+					{
+						y = 4;
+					}
+					InventoryItem = GameManager.Instance.World.RemoveBlock(x, y,false);
 					if (InventoryItem == GridType.Air)
 					{
 						HoldingItem = false;
@@ -123,7 +131,7 @@ public class Train : MonoBehaviour
 				}
 				else
 				{
-					GameManager.Instance.World.PlaceBlock(x, y, false, InventoryItem);
+					GameManager.Instance.World.PlaceBlock(x, y, InventoryItem,false);
 					HoldingItem = false;
 				}
 

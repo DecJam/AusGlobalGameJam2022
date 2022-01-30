@@ -4,67 +4,80 @@ using UnityEngine;
 
 public class GridNode : MonoBehaviour
 {
-	public GridType BlockType;
+	public GridType BlockType = GridType.Building;
 
-    [HideInInspector] public BlockDefs BD;
+  //  [HideInInspector] public BlockDefs BD;
 
     private void Start()
     {
-        BD = GameObject.FindGameObjectWithTag("BlockDefs").GetComponent<BlockDefs>();
+        //BD = GameObject.FindGameObjectWithTag("BlockDefs").GetComponent<BlockDefs>();
     }
 
     public void Update()
     {
-            RefreshBlockType(); // remove this update function and only call refreshBlockType from other scripts when the value in the array changes
+          //  RefreshBlockType(); // remove this update function and only call refreshBlockType from other scripts when the value in the array changes
     }
 
     public void RefreshBlockType()
     {
-        GameObject tempObject = new GameObject();
+        GameObject tempObject;
 
         if (transform.parent.GetChild(1).childCount > 0)
             Destroy(transform.parent.GetChild(1).GetChild(0).gameObject);
+		if (true)
+		{
 
         // need to add randomness and logic to prefab assigment below
         // need to also check for "lower" types
-
+        BlockDefs BD = BlockDefs.Instance;
         if (BlockType == GridType.Air)
         {
-            Destroy(tempObject);
-            tempObject = Instantiate(BD.Blank[0], Vector3.zero, Quaternion.identity);
+            //Destroy(tempObject);
+            tempObject = Instantiate(BD.Blank[0], Vector3.zero, Quaternion.identity); 
         }
         else if (BlockType == GridType.Building)
         {
-            Destroy(tempObject);
+            //Destroy(tempObject);
             tempObject = Instantiate(BD.UpperBuildingSingle[0], Vector3.zero, Quaternion.identity);
         }
         else if (BlockType == GridType.GardenBox)
         {
-            Destroy(tempObject);
+            //Destroy(tempObject);
             tempObject = Instantiate(BD.UpperGardenBox[0], Vector3.zero, Quaternion.identity);
         }
         else if (BlockType == GridType.Rubble)
         {
-            Destroy(tempObject);
+            //Destroy(tempObject);
             tempObject = Instantiate(BD.UpperRubble[0], Vector3.zero, Quaternion.identity);
         }
         else if (BlockType == GridType.SmallTree)
         {
-            Destroy(tempObject);
+            //Destroy(tempObject);
             tempObject = Instantiate(BD.UpperTreeLightTop[0], Vector3.zero, Quaternion.identity);
         }
         else if (BlockType == GridType.Tree)
         {
-            Destroy(tempObject);
+            //Destroy(tempObject);
             tempObject = Instantiate(BD.UpperTreeTop[0], Vector3.zero, Quaternion.identity);
         }
         else if (BlockType == GridType.Bush)
         {
-            Destroy(tempObject);
+            //Destroy(tempObject);
             tempObject = Instantiate(BD.UpperBush[0], Vector3.zero, Quaternion.identity);
         }
+			else
+			{
+                tempObject = Instantiate(BD.Blank[0], Vector3.zero, Quaternion.identity);
+            }
+            SetParent(tempObject);
+       
+		}
+       Debug.Log("RefreshBlockType");
+    }
 
-        tempObject.transform.position = transform.parent.GetChild(1).transform.position;
-        tempObject.transform.SetParent(transform.parent.GetChild(1));
+    private void SetParent(GameObject obj)
+	{
+        obj.transform.position = transform.parent.GetChild(1).transform.position;
+        obj.transform.SetParent(transform.parent.GetChild(1));
     }
 }

@@ -62,7 +62,7 @@ public class TrainArm : MonoBehaviour
 		{
 			other.gameObject.transform.SetParent(Train.Instance.transform);
 			other.gameObject.transform.position = Vector3.zero;
-			Train.Instance.InventoryItem = other.gameObject;
+			//Train.Instance.InventoryItem = other.gameObject;
 			m_MoovingOut = false;
 		}
 	}

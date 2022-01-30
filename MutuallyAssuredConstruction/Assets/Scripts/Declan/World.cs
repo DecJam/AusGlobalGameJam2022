@@ -30,12 +30,13 @@ public class World : MonoBehaviour
 	[SerializeField] private float m_TIckInterval;
 	private int m_BackgroundWidth = 24;
 	private int m_BackgroundHeight = 8;
-	[SerializeField] private GridType[,] m_GameGrid;
+	[SerializeField] private GridNode[,] m_GameGrid;
+	[SerializeField] private float fudgeOffset;
 
 	private float m_Timer;
 	private void Start()
 	{
-		m_GameGrid = new GridType[m_BackgroundWidth, m_BackgroundHeight];
+		m_GameGrid = new GridNode[m_BackgroundWidth, m_BackgroundHeight];
 
 		for (int y = 0; y < TopHalf.transform.childCount; y++)
 		{
@@ -44,7 +45,15 @@ public class World : MonoBehaviour
 			for (int x = 0; x < obj.childCount; x++)
 			{
 				Transform child = obj.GetChild(x);
-				m_GameGrid[x, y] = child.GetComponentInChildren<GridNode>().BlockType;
+				m_GameGrid[x, y] = child.GetComponentInChildren<GridNode>();
+				if (y == 0)
+				{
+					m_GameGrid[x, y].BlockType = GridType.Building;
+				}
+				else
+				{
+					m_GameGrid[x, y].BlockType = GridType.Air;
+				}
 			}
 		}
 
@@ -55,7 +64,24 @@ public class World : MonoBehaviour
 			for (int x = 0; x < obj.childCount; x++)
 			{
 				Transform child = obj.GetChild(x);
-				m_GameGrid[x, y + TopHalf.transform.childCount] = child.GetComponentInChildren<GridNode>().BlockType;
+				m_GameGrid[x, y + TopHalf.transform.childCount] = child.GetComponentInChildren<GridNode>();
+				if (y == 0)
+				{
+					m_GameGrid[x, y + TopHalf.transform.childCount].BlockType = GridType.Building;
+				}
+				else
+				{
+					m_GameGrid[x, y + TopHalf.transform.childCount].BlockType = GridType.Air;
+				}
+			}
+		}
+
+
+		for (int x = 0; x < m_BackgroundWidth; x++)
+		{
+			for (int y = 0; y < m_BackgroundHeight; y++)
+			{
+				m_GameGrid[x, y].RefreshBlockType();
 			}
 		}
 	}
@@ -93,28 +119,137 @@ public class World : MonoBehaviour
 		return cart.position.x / 10;
 	}
 
+	public int FindLowestEmptyAt(int column, bool top)
+	{
+		int result = 0;
+		GridNode node;
+		int index = 0;
+		if (top)
+		{
+			node = m_GameGrid[column, index];
+			for (index = 0;  node.BlockType != GridType.Air; index ++)
+			{
+				node = m_GameGrid[column, index];
+			}
+			result = index;
+		}
+
+		else
+		{
+			index = TopHalf.transform.childCount;
+			node = m_GameGrid[column, index];
+			for (index = TopHalf.transform.childCount; node.BlockType != GridType.Air; index++)
+			{
+				node = m_GameGrid[column, index];
+			}
+			result = index;
+		}
+
+		return result - 1;
+	}
+
 	public int CalculateCollumn(bool up)
 	{
 		float cylinderRotation;// get cylinder rotation from 0
 
 		if (up)
 		{
-			cylinderRotation = m_TopRotation;
+			cylinderRotation = TopRotPoint.transform.eulerAngles.y;
 		}
 
 		else
 		{
-			cylinderRotation = m_BottomRotation;
+			cylinderRotation = BottumRotPoint.transform.eulerAngles.y;
 		}
 
+		float section = (360 - cylinderRotation) / 15f; // 15 is # of * between each column
+		float playerOffSet = cart.position.x;
+		if (playerOffSet > 5) playerOffSet = 5f;
+		else if (playerOffSet < -5) playerOffSet = -5f;
 
-		float cartPositionX  = GetCartPos(); //between -1, 0 , 1
+		section += playerOffSet * -1;
+		section += fudgeOffset; //off set of spindle rotation
 
-		float angleOfSection = 360 / m_BackgroundWidth;
-		float angle = Mathf.Acos(cartPositionX) * Mathf.Rad2Deg;
-		float section = Mathf.Floor((angle - cylinderRotation) / angleOfSection) % m_BackgroundWidth;
+		Debug.Log("Section Collumn = " + (int)section%24);
+		return (int)section % 24;
+	}
 
-		Debug.Log("Section Collumn = " + (int)section);
-		return (int)section;
+	public GridType RemoveBlock(int column, int row, bool top)
+	{
+		GridType block = GridType.Air;
+
+		if (top)
+		{
+			block = m_GameGrid[column, row].BlockType;
+			m_GameGrid[column, row].BlockType = GridType.Air;
+
+			m_GameGrid[column, row].RefreshBlockType();
+		}
+
+		else
+		{
+			block = m_GameGrid[column, row + TopHalf.transform.childCount].BlockType;
+			m_GameGrid[column, row + TopHalf.transform.childCount].BlockType = GridType.Air;
+
+			m_GameGrid[column, row + TopHalf.transform.childCount].RefreshBlockType();
+		}
+		Debug.Log("Removing: " + block + "At:" + column + " * " + row);
+		return block;
+	}
+
+	public GridType BlockAt(int column, bool top)
+	{
+		GridType block = GridType.Air;
+
+		if (top)
+		{
+			if (column < 0)
+			{
+				column = m_BackgroundWidth - column;
+			}
+
+			block = m_GameGrid[column, 0].BlockType;
+		}
+
+		else
+		{
+			if (column < 0)
+			{
+				column = m_BackgroundWidth - column;
+			}
+
+			block = m_GameGrid[column, 0 + TopHalf.transform.childCount].BlockType;
+		}
+
+		return block;
+	}
+
+	public void PlaceBlock(int column, int row, bool top, GridType type)
+	{ 
+		if (top)
+		{
+			if (column < 0)
+			{
+				column = m_BackgroundWidth - column;
+			}
+
+			m_GameGrid[column, row].BlockType = type;
+
+			m_GameGrid[column, row].RefreshBlockType();
+		}
+
+		else
+		{
+			if (column < 0)
+			{
+				column = m_BackgroundWidth - column;
+			}
+
+			m_GameGrid[column, row + TopHalf.transform.childCount].BlockType = type;
+
+			m_GameGrid[column, row + TopHalf.transform.childCount].RefreshBlockType();
+		}
+
+		Debug.Log("Placed:" + type + " At: " + column + " * " + row);
 	}
 }

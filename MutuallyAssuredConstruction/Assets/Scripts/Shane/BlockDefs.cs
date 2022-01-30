@@ -5,6 +5,26 @@ using UnityEngine;
 public class BlockDefs : MonoBehaviour
 {
     //public List<GameObject> thing = new List<GameObject>();
+    #region Singleton instance
+    private static BlockDefs m_Instance;                  // Private Particlemanger instance
+    public static BlockDefs Instance                      // Public Particlemanager instance
+    {
+        get { return m_Instance; }
+    }
+
+    /// <summary>
+    /// Called onn script loading,
+    /// Initializes singleton and sets default values
+    /// </summary>
+    private void Awake()
+    {
+        // Initialize Singleton
+        if (m_Instance != null && m_Instance != this)
+            Destroy(this.gameObject);
+        else
+            m_Instance = this;
+    }
+    #endregion
 
     public List<GameObject> Blank = new List<GameObject>();
 

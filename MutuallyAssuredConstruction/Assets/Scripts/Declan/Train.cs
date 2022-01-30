@@ -31,7 +31,8 @@ public class Train : MonoBehaviour
 	[SerializeField] GameObject m_BottomArm;
 	public bool ArmMoving = false;
 
-	public GameObject InventoryItem;
+	public GridType InventoryItem;
+	bool HoldingItem = false;
 	[SerializeField] bool m_Moving = true;
 	[SerializeField] bool m_MovingRIght = true;
 	[SerializeField] private float m_MovementSpeed;
@@ -66,26 +67,71 @@ public class Train : MonoBehaviour
 	public void MoveArm(float direction)
 	{
 		SetMoving(false);
+		Debug.Log(direction);
 		if (direction > 0)
 		{
-			Debug.Log("W pressed");
+
 			if (!ArmMoving)
 			{
-				GameManager.Instance.World.CalculateCollumn(true);
+				int x = GameManager.Instance.World.CalculateCollumn(true);
+				int y = GameManager.Instance.World.FindLowestEmptyAt(x, true);
+				if (!HoldingItem)
+				{
+					InventoryItem = GameManager.Instance.World.RemoveBlock(x, y-1, true);
+					if(InventoryItem == GridType.Air)
+					{
+					HoldingItem = false;
+
+					}
+					else
+					{
+						HoldingItem = true;
+					}
+				}
+				else
+				{
+					GameManager.Instance.World.PlaceBlock(x, y, true, InventoryItem);
+					HoldingItem = false;
+				}
+
 				m_TopArm.GetComponent<TrainArm>().Move();
 				ArmMoving = true;
 			}
 		}
 
+
 		else
 		{
-			Debug.Log("S Pressed");
+
 			if (!ArmMoving)
 			{
-				GameManager.Instance.World.CalculateCollumn(false);
+
+				int x = GameManager.Instance.World.CalculateCollumn(false);
+				int y = GameManager.Instance.World.FindLowestEmptyAt(x, false);
+				if (!HoldingItem)
+				{
+					InventoryItem = GameManager.Instance.World.RemoveBlock(x, y-1, false);
+					if (InventoryItem == GridType.Air)
+					{
+						HoldingItem = false;
+
+					}
+					else
+					{
+						HoldingItem = true;
+					}
+				}
+				else
+				{
+					GameManager.Instance.World.PlaceBlock(x, y, false, InventoryItem);
+					HoldingItem = false;
+				}
+
 				m_BottomArm.GetComponent<TrainArm>().Move();
 				ArmMoving = true;
 			}
+
+
 		}
 	}
 

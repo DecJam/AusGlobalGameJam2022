@@ -15,14 +15,13 @@ public class InputManager : MonoBehaviour
 
 		//_PlayerInput.Default.mouseclick.performed += ctx => MouseClick(ctx);
 		m_PlayerInput.Default.Arms.performed += ctx => MoveArms(ctx);
-		m_PlayerInput.Default.SideMovement.performed += ctx => RotationInput(ctx);
-		m_PlayerInput.Default.SideMovement.canceled += ctx => RotationInput(ctx);
 
 	}
 
-	private void RotationInput(InputAction.CallbackContext ctx)
-	{ 
-		GameManager.Instance.World.Rotate(ctx.ReadValue<Vector2>());
+	private void Update()
+	{
+		GameManager.Instance.World.Rotate(m_PlayerInput.Default.SideMovement.ReadValue<Vector2>()); ;
+		
 	}
 
 	public void MouseClick(InputAction.CallbackContext ctx)
